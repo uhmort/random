@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Home page</title>
+</head>
+
+<body>
+  <ul id="commits"> </ul>
+
+  <script>
+    var obj = {} 
+    var commits = document.getElementById("commits");
+    var req = new XMLHttpRequest();
+
+    req.open('GET', 'https://api.github.com/repos/torvalds/linux/commits', true); 
+    req.onreadystatechange = function (aEvt) {
+      if (req.readyState == 4) {
+          obj = JSON.parse(req.responseText);
+          for(var i = 0; i < obj.length; i++)
+            commits.innerHTML += "<li> [" + eval(obj)[i].commit.committer.date + "] "
+                                           + eval(obj)[i].commit.message + "</li>";
+      }
+    };
+    req.send(null); 
+  </script>
+
+</body>
+</html>
